@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.douglas.sis_ddos.activitys.ListMyServicesFragment"
-    android:background="#4cac52">
+    android:background="#d2e9d4">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"

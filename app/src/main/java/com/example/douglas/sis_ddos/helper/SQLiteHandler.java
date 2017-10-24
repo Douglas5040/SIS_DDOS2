@@ -18,6 +18,7 @@ import com.example.douglas.sis_ddos.controler.ServPendenteCtrl;
 import com.example.douglas.sis_ddos.controler.ServicesCtrl;
 import com.example.douglas.sis_ddos.controler.UserFuncionarioCtrl;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 	// All Static variables
 	// Database Version
-	private static final int DATABASE_VERSION = 48;
+	private static final int DATABASE_VERSION = 51;
 
 	// Database Name
 	private static final String DATABASE_NAME = "android_api";
@@ -456,35 +457,37 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 	public void addRefrigerador(RefrigeradorCtrl refrigera) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		ContentValues values = new ContentValues();
-		if(!verifyRefri(refrigera.getId_refri())) {
-			if (refrigera.getId_refri() == 0) values.put(KEY_ID_REFRI, ""); // Name
-			else values.put(KEY_ID_REFRI, refrigera.getId_refri());
-			values.put(KEY_PESO_AR, refrigera.getPeso()); // matricula
-			values.put(KEY_HAS_CONTROL, refrigera.getHas_control()); // Email
-			values.put(KEY_HAS_EXAUSTOR, refrigera.getHas_exaustor()); // UID
-			values.put(KEY_SAIDA_DE_AR, refrigera.getSaida_ar()); // Name
-			values.put(KEY_CAPACIDADE_TERMI, refrigera.getCapaci_termica()); // matricula
-			values.put(KEY_TENSAO_TOMADA, refrigera.getTencao_tomada()); // Email
-			values.put(KEY_HAS_TIMER, refrigera.getHas_timer()); // UID
-			values.put(KEY_TIPO_MODELO_AR, refrigera.getTipo_modelo()); // Name
-			values.put(KEY_MARCA_AR, refrigera.getMarca()); // matricula
-			values.put(KEY_TEMP_USO, refrigera.getTemp_uso()); // Email
-			values.put(KEY_NIVEL_ECON, refrigera.getNivel_econo()); // UID
-			values.put(KEY_TAMANHO, refrigera.getTamanho()); // Name
-			values.put(KEY_FOTO1, refrigera.getFoto1()); // matricula
-			values.put(KEY_FOTO2, refrigera.getFoto2()); // Email
-			values.put(KEY_FOTO3, refrigera.getFoto3()); // UID
-			values.put(KEY_ID_CLIENTE_AR, refrigera.getId_cliente()); // UID
-		}else Log.e(TAG, "AR JA CADASTRADO: "+values.get(KEY_ID_REFRI));
-		// Inserting Row
-		long id = db.insert(TABLE_AR_CLIENTE, null, values);
-        Log.e(TAG, "saida de Refrigeradores: "+values.get(KEY_ID_REFRI));
+        try {
+            ContentValues values = new ContentValues();
+            if (!verifyRefri(refrigera.getId_refri())) {
 
-		db.close(); // Closing database connection
+                values.put(KEY_ID_REFRI, refrigera.getId_refri());//ID ar
+                values.put(KEY_PESO_AR, refrigera.getPeso()); // peso ar
+                values.put(KEY_HAS_CONTROL, refrigera.getHas_control()); // Email
+                values.put(KEY_HAS_EXAUSTOR, refrigera.getHas_exaustor()); // UID
+                values.put(KEY_SAIDA_DE_AR, refrigera.getSaida_ar()); // Name
+                values.put(KEY_CAPACIDADE_TERMI, refrigera.getCapaci_termica()); // matricula
+                values.put(KEY_TENSAO_TOMADA, refrigera.getTencao_tomada()); // Email
+                values.put(KEY_HAS_TIMER, refrigera.getHas_timer()); // UID
+                values.put(KEY_TIPO_MODELO_AR, refrigera.getTipo_modelo()); // Name
+                values.put(KEY_MARCA_AR, refrigera.getMarca()); // matricula
+                values.put(KEY_TEMP_USO, refrigera.getTemp_uso()); // Email
+                values.put(KEY_NIVEL_ECON, refrigera.getNivel_econo()); // UID
+                values.put(KEY_TAMANHO, refrigera.getTamanho()); // Name
+                values.put(KEY_FOTO1, refrigera.getFoto1()); // matricula
+                values.put(KEY_FOTO2, refrigera.getFoto2()); // Email
+                values.put(KEY_FOTO3, refrigera.getFoto3()); // UID
+                values.put(KEY_ID_CLIENTE_AR, refrigera.getId_cliente()); // UID
+            } else Log.e(TAG, "AR JA CADASTRADO-----: " + values.get(KEY_ID_REFRI));
+            // Inserting Row
+            long id = db.insert(TABLE_AR_CLIENTE, null, values);
+            Log.e(TAG, "saida de Refrigeradores: "+values.get(KEY_ID_REFRI));
 
-        Log.e(TAG, "---New Refrigerador inserted into sqlite: " + id);
-        Log.e(TAG, "---New Refrigerador Marca: " +  getNomeMaca(Integer.parseInt(values.get(KEY_MARCA_AR).toString())));
+            db.close(); // Closing database connection
+
+        }catch (Exception e){
+            Log.e(TAG, "Erro ao ADD Refrigeradore:------- "+e);
+        }
 	}
 	public boolean verifyRefri(int codRefri){
 		UserFuncionarioCtrl user_func = new UserFuncionarioCtrl();
@@ -692,7 +695,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 	public List<ServPendenteCtrl> getAllMyServPen() {
 
 		List<ServPendenteCtrl> listServPens = new ArrayList<ServPendenteCtrl>();
-		String selectQuery = "SELECT * FROM " + TABLE_MY_SERV_PEN ;
+		String selectQuery = "SELECT * FROM " + TABLE_MY_SERV_PEN +" WHERE "+KEY_STATUS_SERV+" LIKE 'Fazendo'";
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
@@ -853,7 +856,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 		Log.e("ID cliente do AR::: ","--- "+id_ar);
 		try {
 
-			String selectQuery = "SELECT  * FROM " + TABLE_AR_CLIENTE +" WHERE " + KEY_ID_REFRI+" = " + "'"+id_ar+"'";
+			String selectQuery = "SELECT  * FROM " + TABLE_AR_CLIENTE +" WHERE " + KEY_ID_REFRI+" = " +id_ar;
 
 			SQLiteDatabase db = this.getReadableDatabase();
 			Cursor cursor = db.rawQuery(selectQuery, null);
@@ -890,7 +893,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 			return objetoAr;
 
 		}catch (Exception e){
-			Log.e("Erro Consulta: "," erro no retorno "+e);
+			Log.e("Erro Consulta: "," ---------Arcondicionado erro no retorno "+e);
 			return null;
 		}
 	}
@@ -952,11 +955,16 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         Log.e("Tamanho BD Marca: ",""+cursor.getCount());
         // Move to first row
-        cursor.moveToFirst();
+        if(cursor.moveToFirst())
+            marca = cursor.getString(0);
+        else{
 
-        marca = cursor.getString(0);
+            cursor.close();
+            db.close();
+            return "Sem marca";
+        }
 
-            Log.e(TAG, "NOme Marca: " + cursor.getString(0));
+        Log.e(TAG, "NOme Marca: " + cursor.getString(0));
 
         cursor.close();
         db.close();
@@ -1107,7 +1115,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 		try {
 
-			String selectQuery = "SELECT  * FROM " + TABLE_MY_SERV_PEN +" WHERE " + KEY_DATA_SERV+" LIKE '"+data+"' AND "+ KEY_HORA_SERV+" LIKE '"+hora+"'";
+			String selectQuery = "SELECT  * FROM " + TABLE_MY_SERV_PEN +" WHERE " + KEY_DATA_SERV+" LIKE '"+data+"' AND "+ KEY_HORA_SERV+" LIKE '"+hora+"' AND "+KEY_STATUS_SERV+" LIKE 'Fazendo'";
 
 			SQLiteDatabase db = this.getReadableDatabase();
 			Cursor cursor = db.rawQuery(selectQuery, null);

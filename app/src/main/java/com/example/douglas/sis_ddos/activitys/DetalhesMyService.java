@@ -168,7 +168,7 @@ public class DetalhesMyService extends AppCompatActivity {
             Log.e("|Sem Refrigerador","Sem REfrigerador cadastrado");
         }
         Log.e("SercPen DATA: ", ">>>> " + servPen.getData_serv());
-        Log.e("SercPen HORA: ", ">>>> " + servPen.getHora_serv());
+        Log.e("foto refri: ", ">>>> " + refri.getFoto1());
 
         mToolbar.setTitle(servPen.getNomeCli() + ": " + servPen.getTipoCli());
 
@@ -191,7 +191,7 @@ public class DetalhesMyService extends AppCompatActivity {
                 imgViewFoto2.setImageBitmap(resizeImage(this, bitmap2, 600, 500));
                 Bitmap bitmap3 = BitmapFactory.decodeByteArray(refri.getFoto3(), 0, refri.getFoto3().length);
                 imgViewFoto3.setImageBitmap(resizeImage(this, bitmap3, 600, 500));
-            }
+            }else Log.e("","Imagem Refrigerador esta NULA ------------");
         }catch(Exception e){Log.e(TAG,"Error  --  :"+e);}
     }
 

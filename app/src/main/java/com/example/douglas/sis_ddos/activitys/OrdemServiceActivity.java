@@ -24,12 +24,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.douglas.sis_ddos.R;
 import com.example.douglas.sis_ddos.app.AppConfig;
 import com.example.douglas.sis_ddos.app.AppController;
+import com.example.douglas.sis_ddos.app.DataHoraNow;
 import com.example.douglas.sis_ddos.controler.RefrigeradorCtrl;
 import com.example.douglas.sis_ddos.helper.SQLiteHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -125,16 +127,22 @@ public class OrdemServiceActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
+                DataHoraNow dataNow = new DataHoraNow();
 
                 pDialog.setMessage("Finalizando...");
                 showDialog();
 
-                addOrdemService(DetalhesMyService.servPen.getCliente_id(), db.getUserDetails().getMatricula(),tipo_manu, etOBS.getText().toString(), DetalhesMyService.servPen.getData_serv(),DetalhesMyService.servPen.getHora_serv(),"" );
+                addOrdemService(DetalhesMyService.servPen.getCliente_id(), db.getUserDetails().getMatricula(),tipo_manu, etOBS.getText().toString(),
+                        dataNow.getDataNow().substring(6,10)+"-"+
+                        dataNow.getDataNow().substring(3,5)+"-"+
+                        dataNow.getDataNow().substring(0,2), DetalhesMyService.servPen.getHora_serv(),  dataNow.getHoraNow().substring(0,2)+":"+
+                                                                                                            dataNow.getHoraNow().substring(3,5)+":"+
+                                                                                                            dataNow.getHoraNow().substring(6,8));
 
                 updateStatus(DetalhesMyService.servPen.getId_serv_pen(),"Realizado");
                 db.deleteDadosOScahe(DetalhesMyService.servPen.getCliente_id());
-                hideDialog();
-                Log.e(TAG,"----------------------Fim ADD OS");
+
+                Log.e(TAG,"----------------------Fim ADD OS  "+dataNow.getDataNow().substring(6,10));
                 // Launch DetalhesMyService activity
                 Intent intent = new Intent(
                         getApplicationContext(),
@@ -495,7 +503,8 @@ public class OrdemServiceActivity extends AppCompatActivity {
                         db = new SQLiteHandler(getApplicationContext());
 
                         db.updateStatusServ(id_serv, new_status);
-                        db.deleteMyServPen(DetalhesMyService.servPen.getId_serv_pen());
+                        //db.deleteMyServPen(DetalhesMyService.servPen.getId_serv_pen());
+                        hideDialog();
                     } else {
                         // Error in login. Get the error message
                         Log.e("Errro in new Status: ", "Erro ao atualizar novo status!!!" );

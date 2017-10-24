@@ -49,7 +49,6 @@ public class ListServPendenteFragment extends Fragment implements SwipeRefreshLa
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = ListServPendenteFragment.class.getSimpleName();
     private ListView lvServPen;
-    private ProgressDialog pDialog;
     private SQLiteHandler db;
     public static int servPenPosition = 0;
     public static int servPenPositionList = 0;
@@ -112,10 +111,6 @@ public class ListServPendenteFragment extends Fragment implements SwipeRefreshLa
         lvServPen = (ListView) view.findViewById(R.id.lvServPen);
 
 
-
-        // Progress dialog
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setCancelable(false);
 
         db = new SQLiteHandler(getContext());
 
@@ -218,8 +213,6 @@ public class ListServPendenteFragment extends Fragment implements SwipeRefreshLa
         String tag_string_req = "req_listaServPen";
         //final List<ServPendenteCtrl> listSerPen =null;
 
-        pDialog.setMessage("Carregando...");
-        showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppConfig.URL_SERV_PEN, new Response.Listener<String>() {
@@ -227,7 +220,6 @@ public class ListServPendenteFragment extends Fragment implements SwipeRefreshLa
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "Carregando dados: " + response.toString());
-                hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
@@ -308,7 +300,6 @@ public class ListServPendenteFragment extends Fragment implements SwipeRefreshLa
                 objetoServPen.setId_serv_pen(-1);
 
                 servPens.add(objetoServPen);
-                hideDialog();
                 // stopping swipe refresh
 
                 listServApd.notifyDataSetChanged();
@@ -332,14 +323,5 @@ public class ListServPendenteFragment extends Fragment implements SwipeRefreshLa
 
     }
 
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
 
 }

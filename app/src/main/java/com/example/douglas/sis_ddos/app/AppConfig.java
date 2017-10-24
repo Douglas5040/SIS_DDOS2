@@ -2,7 +2,7 @@ package com.example.douglas.sis_ddos.app;
 
 public class AppConfig {
 	// Server user login url
-	static String constantIP = "192.168.1.4";
+	static String constantIP = "192.168.0.128";
 
 	public static String URL_LOGIN = "http://"+constantIP+"/android_login_api/login.php";
 

@@ -51,7 +51,6 @@ public class ListMyServicesFragment extends Fragment implements SwipeRefreshLayo
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = ListMyServicesFragment.class.getSimpleName();
     private ListView lvMyServ;
-    private ProgressDialog pDialog;
     private SQLiteHandler db;
     private List<ServPendenteCtrl> myServPens;
 
@@ -119,9 +118,6 @@ public class ListMyServicesFragment extends Fragment implements SwipeRefreshLayo
         alerta = builder.create();
 
 
-        // Progress dialog
-        pDialog = new ProgressDialog(getContext());
-        pDialog.setCancelable(false);
 
         db = new SQLiteHandler(getContext());
 
@@ -391,8 +387,6 @@ public class ListMyServicesFragment extends Fragment implements SwipeRefreshLayo
         // showing refresh animation before making http call
         swipeRefreshLayout.setRefreshing(true);
 
-        pDialog.setMessage("Carregando...");
-        showDialog();
 
         myServPens.clear();
         myServPens.addAll(db.getAllMyServPen());
@@ -406,7 +400,6 @@ public class ListMyServicesFragment extends Fragment implements SwipeRefreshLayo
             objetoServPen.setId_serv_pen(-1);
 
             myServPens.add(objetoServPen);
-            hideDialog();
             // stopping swipe refresh
 
             listServApd.notifyDataSetChanged();
@@ -425,17 +418,8 @@ public class ListMyServicesFragment extends Fragment implements SwipeRefreshLayo
 
         // stopping swipe refresh
         swipeRefreshLayout.setRefreshing(false);
-        hideDialog();
+
     }
 
 
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
 }

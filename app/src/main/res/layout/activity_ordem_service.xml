@@ -243,18 +243,18 @@
                     android:textColor="#000"
                     android:textSize="22sp"
                     android:textStyle="bold" />
-
+                <LinearLayout android:focusable="true"
+                    android:focusableInTouchMode="true" android:layout_width="0px"
+                    android:layout_height="0px" />
                 <EditText
                     android:id="@+id/etObs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:focusableInTouchMode="false"
                     android:inputType="textMultiLine"
                     android:paddingBottom="7dp"
                     android:paddingLeft="5dp"
-                    android:paddingTop="7dp"
-                    android:selectAllOnFocus="false" />
+                    android:paddingTop="7dp" />
 
             </LinearLayout>
         </ScrollView>

@@ -304,24 +304,91 @@
                     android:paddingTop="8dp"
                     android:text="TextView"
                     android:textColor="@color/bg_register" />
-
-                <ImageView
-                    android:id="@+id/imageView1FotoServPen"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/common_google_signin_btn_icon_dark_normal_background" />
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="5dp">
 
-                <ImageView
-                    android:id="@+id/imageView2FotoServPen"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10.09"
+                        android:text="Foto 1 (Refrigerador):"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView1FotoServPen"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10.09"
+                        android:scaleType="center"
+                        app:srcCompat="@drawable/camera_enhance" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="5dp">
 
-                <ImageView
-                    android:id="@+id/imageView3FotoServPen"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10.09"
+                        android:text="Foto 2 (Refrigerador):"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView2FotoServPen"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10.09"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/camera" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/common_google_signin_btn_icon_light" />
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10.09"
+                        android:text="Foto 3 (Refrigerador):"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView3FotoServPen"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="10.09"
+                        android:adjustViewBounds="false"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/camera" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
         </ScrollView>

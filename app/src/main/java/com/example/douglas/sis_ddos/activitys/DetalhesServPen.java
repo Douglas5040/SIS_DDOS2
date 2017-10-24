@@ -1,5 +1,6 @@
 package com.example.douglas.sis_ddos.activitys;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -75,12 +76,13 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
     private Toolbar mToolbar;
     private Toolbar mToobarBotton;
     private AlertDialog alerta;
-    private String urlFoto1;
-    private String urlFoto2;
-    private String urlFoto3;
+    private String urlFoto1 = null;
+    private String urlFoto2 = null;
+    private String urlFoto3 = null;
     private Handler handler = new Handler();
     ListServPenAdapter listServApd;
-    RefrigeradorCtrl refriCli;
+    RefrigeradorCtrl refriCli = null;
+    private ProgressDialog pDialog;
 
     public DetalhesServPen() throws IOException {
     }
@@ -93,6 +95,11 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
         db = new SQLiteHandler(getApplicationContext());
         refriCli = new RefrigeradorCtrl();
         //alerta = new AlertDialog.Builder(getApplicationContext()).create();
+
+
+        // Progress dialog
+        pDialog = new ProgressDialog(getApplicationContext());
+        pDialog.setCancelable(false);
 
         txtData = (TextView) findViewById(R.id.dataView);
         txtHora = (TextView) findViewById(R.id.horaView);
@@ -121,16 +128,9 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
         mToobarBotton.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                //updateStatus(servPen.getId_serv_pen(), db.getUserDetails().getName());
+
                 confirmRealizarServ(ListServPendenteFragment.servPen, db.getUserDetails().getMatricula());
 
-//                Intent it = null;
-//
-//                if(item.getItemId() ==  R.id.action_settings){
-//                        it = new Intent(Intent.ACTION_VIEW);
-//                        it.setData(Uri.parse("http://www.google.com"));
-//                        startActivity(it);
-//                }
                 return true;
             }
         });
@@ -165,7 +165,7 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
 
         Log.e("SercPen Position: ", "-->>---" + ListServPendenteFragment.servPenPosition);
 
-         getArCli(ListServPendenteFragment.servPen.getId_refriCli());
+        getArCli(ListServPendenteFragment.servPen.getId_refriCli());
 
         Log.e("SercPen DATA: ", ">>>> " + ListServPendenteFragment.servPen.getData_serv());
         Log.e("SercPen HORA: ", ">>>> " + ListServPendenteFragment.servPen.getHora_serv());
@@ -217,6 +217,8 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
         // Tag used to cancel the request
         String tag_string_req = "req_new_status";
 
+//        pDialog.setMessage("Carregando...");
+//        showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppConfig.URL_UPDATE_STATUS, new Response.Listener<String>() {
@@ -347,14 +349,24 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
 
         {
             public void onClick (DialogInterface arg0, int arg1){
-                //Toast.makeText(getApplicationContext(), "positivo=" + arg1, Toast.LENGTH_SHORT).show();
+
+                Log.e("Refrigerador 1"," "+refriCli.getFoto1());
+                Log.e("Refrigerador 2"," "+refriCli.getFoto2());
+                Log.e("Refrigerador 3"," "+refriCli.getFoto3());
                 if(!db.verifyDataHoraServIfEquals(txtData.getText().toString(),txtHora.getText().toString())) {
-                    updateStatus(servPen.getId_serv_pen(), "Fazendo");
-                    updateMatriFunc(servPen.getId_serv_pen(), matriFunc);
-                    db.addMyServPen(servPen, "Fazendo");
-                    db.addRefrigerador(refriCli);
+                    //alerta.dismiss();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            updateStatus(servPen.getId_serv_pen(), "Fazendo");
+                            updateMatriFunc(servPen.getId_serv_pen(), matriFunc);
+                            db.addMyServPen(servPen, "Fazendo");
+                            db.addRefrigerador(refriCli);
+                        }
+                    });
 
-
+                    hideDialog();
                     finish();
                 }else Toast.makeText(getApplicationContext(), "Voçe ja tem um serviço pendente nesta DATA e HORA", Toast.LENGTH_LONG).show();
             }
@@ -420,6 +432,10 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
                                 urlFoto2 = arCliObj.getString("foto2");
                                 urlFoto3 = arCliObj.getString("foto3");
 
+                                //handler.post(DetalhesServPen.this);
+
+                                Log.e(TAG, "URL1: "+urlFoto1 +" URL2: "+urlFoto2+" URL3: "+urlFoto3) ;
+
                                 new Thread(DetalhesServPen.this).start();
 
                             } catch (JSONException e) {
@@ -467,27 +483,34 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
 
     public Bitmap downloadIMG(String url) throws IOException{
         try{
+
+            Log.e("downloadIMG entrou","-----------------|||||| "+url+" ||||||||---------- 1");
             //Cria a URL
             URL u = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();
             //configura a requesição para "get"
+
+            Log.e("downloadIMG entrou","-----------------|||||| HttpURLConnection ||||||||---------- 1");
             connection.setRequestProperty("Request-Method","GET");
             connection.setDoInput(true);
             connection.setDoOutput(false);
             connection.connect();
             InputStream in = connection.getInputStream();
+            Log.e("downloadIMG entrou","-----------------|||||| InputStream ||||||||---------- 1");
             //Arquivo
             byte[] bytes = readBytes(in);
             Log.e("DOWNLOAD IMG","Image Retornada com "+ bytes.length + "bytes");
+
+            Log.e("DOWNLOAD IMG",":  "+ bytes + "bytes");
             connection.disconnect();
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         }catch (MalformedURLException e){
             Log.e("DOWNLOAD IMG",e.getMessage(),e);
+            return null;
         }catch (IOException e){
             Log.e("DOWNLOAD IMG",e.getMessage(),e);
+            return null;
         }
-
-        return null;
     }
 
     private byte[] readBytes(InputStream in) throws IOException{
@@ -502,29 +525,39 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
             return bytes;
         }finally {
             bos.close();
-            in.close();;
+            in.close();
         }
     }
 
     @Override
     public void run() {
+        Log.e("Refrigerador entrou","-----------------||||||||||||||---------- ");
         try{
+
             if(!urlFoto1.equals("null") || !urlFoto1.equals(null)) {
+
+                Log.e("Refrigerador entrou","-----------------||||||IF null||||||||---------- ");
                 final Bitmap bitmap1 = downloadIMG(AppConfig.URL_DOWNLOAD_IMAGE+urlFoto1+".JPG");
                 if(bitmap1 != null) {
+
+                    Log.e("Refrigerador entrou","-----------------||||||IF Bitmap1||||||||---------- ");
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
                             ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
                             bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
+                            imgViewFoto1.setImageBitmap(resizeImage(getApplicationContext(), bitmap1, 600, 500));
+
                             byte[] byteArray1 = stream1.toByteArray();
                             refriCli.setFoto1(byteArray1);
 
-                            imgViewFoto1.setImageBitmap(resizeImage(getApplicationContext(), bitmap1, 600, 500));
+                            Log.e("Refrigerador 1"," "+refriCli.getFoto1());
+
                         }
                     });
                 }else{
                     refriCli.setFoto1(null);
+                    Log.e("Refrigerador entrou","-----------------||||||ELSE |||||||---------- URL: "+AppConfig.URL_DOWNLOAD_IMAGE+urlFoto1+".JPG");
                 }
             }
             if(!urlFoto2.equals("null") || !urlFoto2.equals(null)) {
@@ -537,6 +570,7 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
                             bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream2);
                             byte[] byteArray2 = stream2.toByteArray();
                             refriCli.setFoto2(byteArray2);
+                            Log.e("Refrigerador 2"," "+refriCli.getFoto2());
 
                             imgViewFoto2.setImageBitmap(resizeImage(getApplicationContext(), bitmap2, 600, 500));
                         }
@@ -555,6 +589,7 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
                             bitmap3.compress(Bitmap.CompressFormat.JPEG, 100, stream3);
                             byte[] byteArray3 = stream3.toByteArray();
                             refriCli.setFoto3(byteArray3);
+                            Log.e("Refrigerador 3"," "+refriCli.getFoto3());
 
                             imgViewFoto3.setImageBitmap(resizeImage(getApplicationContext(), bitmap3, 600, 500));
                         }
@@ -565,7 +600,17 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
             }
 
         }catch (Throwable e){
-            Log.e("DOWNLOAD IMG ",e.getMessage(),e);
+            Log.e("ERROR DOWNLOAD IMG ",e.getMessage(),e);
         }
+    }
+
+    private void showDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hideDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 }

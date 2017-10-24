@@ -111,6 +111,8 @@ public class EditArActivity extends AppCompatActivity {
         dialog.setCancelable(false);
 
         txtCli = (TextView) findViewById(R.id.textCli);
+        txtCli.requestFocus();
+
         checkBoxOutAir = (CheckBox) findViewById(R.id.checkBoxOutAir);
         checkBoxExaustor = (CheckBox) findViewById(R.id.checkBoxExaustor);
         checkBoxControl = (CheckBox) findViewById(R.id.checkBoxControl);

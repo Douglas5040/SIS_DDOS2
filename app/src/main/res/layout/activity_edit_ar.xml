@@ -330,17 +330,15 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+
                 <EditText
                     android:id="@+id/editTamanho"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:focusableInTouchMode="true"
                     android:hint="Largura x Altura"
                     android:inputType="textPersonName"
-                    android:nextFocusDown="@+id/inc_tb_botton_edit_ar"
-                    android:selectAllOnFocus="true"
                     android:textSize="22sp" />
 
             </LinearLayout>
@@ -367,11 +365,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:focusableInTouchMode="true"
                     android:hint="Tempo de Uso Ar-condicionado"
                     android:inputType="textPersonName"
-                    android:nextFocusDown="@+id/inc_tb_botton_edit_ar"
-                    android:selectAllOnFocus="true"
                     android:textSize="22sp" />
 
             </LinearLayout>
@@ -398,11 +393,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:focusableInTouchMode="true"
                     android:hint="Peso Ar-condicionado"
                     android:inputType="textPersonName"
-                    android:nextFocusDown="@+id/inc_tb_botton_edit_ar"
-                    android:selectAllOnFocus="true"
                     android:textSize="22sp" />
 
             </LinearLayout>
