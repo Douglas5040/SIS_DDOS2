@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
 import android.renderscript.Byte2;
@@ -113,9 +114,9 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
         btnFone2 = (Button) findViewById(R.id.btnFone2);
         btnMapa = (Button) findViewById(R.id.btnMapServPen);
 
-        imgViewFoto1 = (ImageView) findViewById(R.id.imageView1FotoServPen);
-        imgViewFoto2 = (ImageView) findViewById(R.id.imageView2FotoServPen);
-        imgViewFoto3 = (ImageView) findViewById(R.id.imageView3FotoServPen);
+//        imgViewFoto1 = (ImageView) findViewById(R.id.imageView1FotoServPen);
+//        imgViewFoto2 = (ImageView) findViewById(R.id.imageView2FotoServPen);
+//        imgViewFoto3 = (ImageView) findViewById(R.id.imageView3FotoServPen);
 
 
         mToolbar = (Toolbar) findViewById(R.id.tb_detal_serv);
@@ -139,10 +140,18 @@ public class DetalhesServPen extends AppCompatActivity implements Runnable{
         btnMapa.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        LocalServActivity.class);
-                startActivity(i);
+                if(ListServPendenteFragment.servPen.getLongitude() == 0.0 || ListServPendenteFragment.servPen.getLatitude() == 0.0){
 
+                    String ender = "geo:0,0?q="+ListServPendenteFragment.servPen.getEnder()+",Manaus,"+
+                                                ListServPendenteFragment.servPen.getCep();
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ender)));
+                }else {
+                    String url = "geo:" + ListServPendenteFragment.servPen.getLatitude()
+                            + "," + ListServPendenteFragment.servPen.getLongitude() +
+                            "?q=" + ListServPendenteFragment.servPen.getLatitude() +
+                            "," + ListServPendenteFragment.servPen.getLongitude();
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                }
                 //finish();
             }
         });

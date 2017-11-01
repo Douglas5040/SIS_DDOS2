@@ -74,9 +74,9 @@ public class DetalhesMyService extends AppCompatActivity {
         btnFone2 = (Button) findViewById(R.id.btnFone2);
         btnMapa = (Button) findViewById(R.id.btnMapServPen);
 
-        imgViewFoto1 = (ImageView)findViewById(R.id.imgViewFoto1);
-        imgViewFoto2 = (ImageView)findViewById(R.id.imgViewFoto2);
-        imgViewFoto3 = (ImageView)findViewById(R.id.imgViewFoto3);
+//        imgViewFoto1 = (ImageView)findViewById(R.id.imgViewFoto1);
+//        imgViewFoto2 = (ImageView)findViewById(R.id.imgViewFoto2);
+//        imgViewFoto3 = (ImageView)findViewById(R.id.imgViewFoto3);
 
         mToolbar = (Toolbar) findViewById(R.id.tb_detal_serv);
         mToolbar.setTitle("Lista de Serviços Pendentes");
@@ -102,10 +102,10 @@ public class DetalhesMyService extends AppCompatActivity {
         btnMapa.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        LocalServActivity.class);
-                startActivity(i);
-                //finish();
+                String partida = "";
+                String destino = ""+ListMyServicesFragment.servMyPen.getLatitude()+","+ListMyServicesFragment.servMyPen.getLongitude();
+                String comoChegar = "http://maps.google.com/maps?f=d&saddr="+partida+"&daddr="+destino+"&hl=pt";;
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(comoChegar)));
             }
         });
 
@@ -164,11 +164,11 @@ public class DetalhesMyService extends AppCompatActivity {
         RefrigeradorCtrl refri = null;
         try {
             refri = db.getArCli(servPen.getId_refriCli());
+            Log.e("SercPen DATA: ", ">>>> " + servPen.getData_serv());
+            Log.e("foto refri: ", ">>>> " + refri.getFoto1());
         }catch (Exception ex){
             Log.e("|Sem Refrigerador","Sem REfrigerador cadastrado");
         }
-        Log.e("SercPen DATA: ", ">>>> " + servPen.getData_serv());
-        Log.e("foto refri: ", ">>>> " + refri.getFoto1());
 
         mToolbar.setTitle(servPen.getNomeCli() + ": " + servPen.getTipoCli());
 

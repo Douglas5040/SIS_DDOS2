@@ -10,10 +10,10 @@
             android:id="@+id/my_serv"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Meus Serviços" />
-        <item
+   <!--     <item
             android:id="@+id/notifica"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Notificações" />
+            android:title="Notificações" /> -->
 
     </group>
 

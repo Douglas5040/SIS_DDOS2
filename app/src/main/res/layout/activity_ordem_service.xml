@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_detal_serv"
+        android:id="@+id/tb_os"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -18,6 +18,7 @@
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:subtitleTextColor="@color/colorAccent"
+        app:title="ORDEM DE SERVIÇO"
         app:titleTextColor="@color/colorAccent" />
 
     <LinearLayout

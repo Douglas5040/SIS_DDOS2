@@ -38,7 +38,7 @@ import java.util.Map;
 public class LoginActivity extends Activity {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private Button btnLogin;
-    private Button btnLinkToRegister;
+    //private Button btnLinkToRegister;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
+        //btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
 
         //agendando alarme daqui a 1s
         agendarAlarme(0);
@@ -101,15 +101,15 @@ public class LoginActivity extends Activity {
         });
 
         // Link to Register Screen
-        btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        RegisterActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+//        btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View view) {
+//                Intent i = new Intent(getApplicationContext(),
+//                        RegisterActivity.class);
+//                startActivity(i);
+//                finish();
+//            }
+//        });
 
     }
 

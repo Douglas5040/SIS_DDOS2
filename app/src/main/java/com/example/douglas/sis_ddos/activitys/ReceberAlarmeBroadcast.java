@@ -93,6 +93,7 @@ public class ReceberAlarmeBroadcast extends BroadcastReceiver {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.e(TAG, "Registration Error: " +  e);
                 }
 
             }

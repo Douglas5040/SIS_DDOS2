@@ -76,11 +76,11 @@ public class EditArActivity extends AppCompatActivity {
     private EditText editTamanho;
     private EditText editTempoUso;
     private EditText editPeso;
-    private ImageButton imgBtnFoto1;
-    private ImageButton imgBtnFoto2;
-    private ImageButton imgBtnFoto3;
-    private ImageView imgViewfoto1;
-    private ImageView imgViewfoto2;
+//    private ImageButton imgBtnFoto1;
+//    private ImageButton imgBtnFoto2;
+//    private ImageButton imgBtnFoto3;
+//    private ImageView imgViewfoto1;
+//    private ImageView imgViewfoto2;
     private Toolbar mToolbar;
     private Toolbar mToobarBotton;
     private SQLiteHandler db;
@@ -121,25 +121,25 @@ public class EditArActivity extends AppCompatActivity {
         editTamanho = (EditText) findViewById(R.id.editTamanho);
         editTempoUso = (EditText) findViewById(R.id.editTempoUso);
         editPeso = (EditText) findViewById(R.id.editPeso);
-        imgBtnFoto1 = (ImageButton) findViewById(R.id.imgBtnFoto1);
-        imgBtnFoto2 = (ImageButton) findViewById(R.id.imgBtnFoto2);
-        imgBtnFoto3 = (ImageButton) findViewById(R.id.imgBtnFoto3);
+//        imgBtnFoto1 = (ImageButton) findViewById(R.id.imgBtnFoto1);
+//        imgBtnFoto2 = (ImageButton) findViewById(R.id.imgBtnFoto2);
+//        imgBtnFoto3 = (ImageButton) findViewById(R.id.imgBtnFoto3);
 
-        try {
-            //Fotos
-            Bitmap bitmap1 = BitmapFactory.decodeByteArray(arCli.getFoto1(), 0, arCli.getFoto1().length);
-            imgBtnFoto1.setImageBitmap(resizeImage(this, bitmap1, 600, 500));
-            imgBtnFoto1.setAdjustViewBounds(true);
-
-            Bitmap bitmap2 = BitmapFactory.decodeByteArray(arCli.getFoto2(), 0, arCli.getFoto2().length);
-            imgBtnFoto2.setImageBitmap(resizeImage(this, bitmap2, 600, 500));
-            imgBtnFoto2.setAdjustViewBounds(true);
-
-            Bitmap bitmap3 = BitmapFactory.decodeByteArray(arCli.getFoto3(), 0, arCli.getFoto3().length);
-            imgBtnFoto3.setImageBitmap(resizeImage(this, bitmap3, 600, 500));
-            imgBtnFoto3.setAdjustViewBounds(true);
-
-        }catch (Exception e){Log.e(TAG,"ERROR : "+e);}
+//        try {
+//            //Fotos
+//            Bitmap bitmap1 = BitmapFactory.decodeByteArray(arCli.getFoto1(), 0, arCli.getFoto1().length);
+//            imgBtnFoto1.setImageBitmap(resizeImage(this, bitmap1, 600, 500));
+//            imgBtnFoto1.setAdjustViewBounds(true);
+//
+//            Bitmap bitmap2 = BitmapFactory.decodeByteArray(arCli.getFoto2(), 0, arCli.getFoto2().length);
+//            imgBtnFoto2.setImageBitmap(resizeImage(this, bitmap2, 600, 500));
+//            imgBtnFoto2.setAdjustViewBounds(true);
+//
+//            Bitmap bitmap3 = BitmapFactory.decodeByteArray(arCli.getFoto3(), 0, arCli.getFoto3().length);
+//            imgBtnFoto3.setImageBitmap(resizeImage(this, bitmap3, 600, 500));
+//            imgBtnFoto3.setAdjustViewBounds(true);
+//
+//        }catch (Exception e){Log.e(TAG,"ERROR : "+e);}
         //preenchendo Spinner
         spinnerMarca = (Spinner) findViewById(R.id.spinnerMarca);
         ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(getApplicationContext(),R.layout.simple_spinner_item, db.getMacas());
@@ -241,65 +241,65 @@ public class EditArActivity extends AppCompatActivity {
                 }
             }
         });
-        imgBtnFoto1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentPegaFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentPegaFoto,REQUEST_CODE_FOTO1);
-            }
-        });
-        imgBtnFoto2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentPegaFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentPegaFoto,REQUEST_CODE_FOTO2);
-            }
-        });
-        imgBtnFoto3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentPegaFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentPegaFoto,REQUEST_CODE_FOTO3);
-            }
-        });
+//        imgBtnFoto1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intentPegaFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intentPegaFoto,REQUEST_CODE_FOTO1);
+//            }
+//        });
+//        imgBtnFoto2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intentPegaFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intentPegaFoto,REQUEST_CODE_FOTO2);
+//            }
+//        });
+//        imgBtnFoto3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intentPegaFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intentPegaFoto,REQUEST_CODE_FOTO3);
+//            }
+//        });
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Log.e("Entrou Camera","-------------------onActivityResult.....................");
-        if(resultCode == RESULT_OK){
-            Log.e("Entrou Camera","-------------------REQUEST_CODE_B.....................");
-            try{
-                if(bitmap != null){
-                    bitmap.recycle();
-                }
-                bitmap = (Bitmap) data.getExtras().get("data");
-                Log.e("Entrou Camera","-------------------CAmera.....................");
-                switch(requestCode){
-                    case REQUEST_CODE_FOTO1:  imgBtnFoto1.setImageBitmap(resizeImage(this, bitmap, 650, 500));
-                                                imgBtnFoto1.setAdjustViewBounds(true);
-                                                DataHoraNow data1 = new DataHoraNow();
-                                                dataNow = data1.getDataHoraNow();
-                        break;
-                    case REQUEST_CODE_FOTO2:  imgBtnFoto2.setImageBitmap(resizeImage(this, bitmap, 650, 500));
-                                                imgBtnFoto2.setAdjustViewBounds(true);
-                                                DataHoraNow data2 = new DataHoraNow();
-                                                dataNow = data2.getDataHoraNow();
-                        break;
-                    case REQUEST_CODE_FOTO3:  imgBtnFoto3.setImageBitmap(resizeImage(this, bitmap, 650, 500));
-                                                imgBtnFoto3.setAdjustViewBounds(true);
-                                                DataHoraNow data3 = new DataHoraNow();
-                                                dataNow = data3.getDataHoraNow();
-                        break;
-                }
-            }catch (Exception ex){
-                ex.printStackTrace();
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        Log.e("Entrou Camera","-------------------onActivityResult.....................");
+//        if(resultCode == RESULT_OK){
+//            Log.e("Entrou Camera","-------------------REQUEST_CODE_B.....................");
+//            try{
+//                if(bitmap != null){
+//                    bitmap.recycle();
+//                }
+//                bitmap = (Bitmap) data.getExtras().get("data");
+//                Log.e("Entrou Camera","-------------------CAmera.....................");
+//                switch(requestCode){
+//                    case REQUEST_CODE_FOTO1:  imgBtnFoto1.setImageBitmap(resizeImage(this, bitmap, 650, 500));
+//                                                imgBtnFoto1.setAdjustViewBounds(true);
+//                                                DataHoraNow data1 = new DataHoraNow();
+//                                                dataNow = data1.getDataHoraNow();
+//                        break;
+//                    case REQUEST_CODE_FOTO2:  imgBtnFoto2.setImageBitmap(resizeImage(this, bitmap, 650, 500));
+//                                                imgBtnFoto2.setAdjustViewBounds(true);
+//                                                DataHoraNow data2 = new DataHoraNow();
+//                                                dataNow = data2.getDataHoraNow();
+//                        break;
+//                    case REQUEST_CODE_FOTO3:  imgBtnFoto3.setImageBitmap(resizeImage(this, bitmap, 650, 500));
+//                                                imgBtnFoto3.setAdjustViewBounds(true);
+//                                                DataHoraNow data3 = new DataHoraNow();
+//                                                dataNow = data3.getDataHoraNow();
+//                        break;
+//                }
+//            }catch (Exception ex){
+//                ex.printStackTrace();
+//            }
+//        }
+//    }
 
     private static Bitmap resizeImage(Context context, Bitmap bmpOriginal, float newWidth, float newHeight){
         Bitmap novoBmp = null;
@@ -580,31 +580,31 @@ public class EditArActivity extends AppCompatActivity {
                     arCli.setId_refri(OrdemServiceActivity.arCliSpinnerOS.getId_refri());
 
 
-                Bitmap bitmap1 = ((BitmapDrawable) imgBtnFoto1.getDrawable()).getBitmap();
-                ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-                bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
-                byte[] byteArray1 = stream1.toByteArray();
-                arCli.setFoto1(byteArray1);
-
-                Bitmap bitmap2 = ((BitmapDrawable) imgBtnFoto2.getDrawable()).getBitmap();
-                ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
-                bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream2);
-                byte[] byteArray2 = stream2.toByteArray();
-                arCli.setFoto2(byteArray2);
-
-                Bitmap bitmap3 = ((BitmapDrawable) imgBtnFoto3.getDrawable()).getBitmap();
-                ByteArrayOutputStream stream3 = new ByteArrayOutputStream();
-                bitmap3.compress(Bitmap.CompressFormat.JPEG, 100, stream3);
-                byte[] byteArray3 = stream3.toByteArray();
-                arCli.setFoto3(byteArray3);
-
-            if(!dataNow.equals("")) {
-                dialog.show();
-                uploadImgServer(bitmap1, "1");
-                uploadImgServer(bitmap2, "2");
-                uploadImgServer(bitmap3, "3");
-
-            }
+//                Bitmap bitmap1 = ((BitmapDrawable) imgBtnFoto1.getDrawable()).getBitmap();
+//                ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+//                bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
+//                byte[] byteArray1 = stream1.toByteArray();
+//                arCli.setFoto1(byteArray1);
+//
+//                Bitmap bitmap2 = ((BitmapDrawable) imgBtnFoto2.getDrawable()).getBitmap();
+//                ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+//                bitmap2.compress(Bitmap.CompressFormat.JPEG, 100, stream2);
+//                byte[] byteArray2 = stream2.toByteArray();
+//                arCli.setFoto2(byteArray2);
+//
+//                Bitmap bitmap3 = ((BitmapDrawable) imgBtnFoto3.getDrawable()).getBitmap();
+//                ByteArrayOutputStream stream3 = new ByteArrayOutputStream();
+//                bitmap3.compress(Bitmap.CompressFormat.JPEG, 100, stream3);
+//                byte[] byteArray3 = stream3.toByteArray();
+//                arCli.setFoto3(byteArray3);
+//
+//            if(!dataNow.equals("")) {
+//                dialog.show();
+//                uploadImgServer(bitmap1, "1");
+//                uploadImgServer(bitmap2, "2");
+//                uploadImgServer(bitmap3, "3");
+//
+//            }
                 editarArCliBD(arCli);
                 dialog.dismiss();
 

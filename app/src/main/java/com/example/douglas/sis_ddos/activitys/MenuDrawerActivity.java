@@ -77,14 +77,6 @@ public class MenuDrawerActivity extends AppCompatActivity
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -98,7 +90,8 @@ public class MenuDrawerActivity extends AppCompatActivity
         View viewHeader = navigationView.getHeaderView(0);
 
         TextView tvNomeUser =  viewHeader.findViewById(R.id.tvNomeUser);
-        tvNomeUser.setText(db.getUserDetails().getName());
+        String[] name = db.getUserDetails().getName().split(" ");
+        tvNomeUser.setText(name[0]);
 
         TextView tvEmailUser = viewHeader.findViewById(R.id.tvEmailUser);
         tvEmailUser.setText(db.getUserDetails().getEmail());
@@ -214,9 +207,9 @@ public class MenuDrawerActivity extends AppCompatActivity
             fragment = new ListMyServicesFragment();
             fragmentoSection = true;
 
-        } else if (id == R.id.notifica) {
+        }/*else if (id == R.id.notifica) {
 
-        }if(fragmentoSection)
+        }*/if(fragmentoSection)
             getSupportFragmentManager().beginTransaction().replace(R.id.contendor, fragment).commit();
 
         return super.onOptionsItemSelected(item);
@@ -241,10 +234,13 @@ public class MenuDrawerActivity extends AppCompatActivity
             fragment = new ListMyServicesFragment();
             fragmentoSection = true;
 
-        } else if (id == R.id.notifica) {
+        }/* else if (id == R.id.notifica) {
 
-        } else if (id == R.id.detal_conta) {
-
+        } */else if (id == R.id.detal_conta) {
+            // Launching the login activity
+            Intent intent = new Intent(MenuDrawerActivity.this, InformActivity.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.sair) {
 
             session.setLogin(false);

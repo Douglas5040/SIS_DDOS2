@@ -113,13 +113,11 @@ public class OrdemServiceActivity extends AppCompatActivity {
         btnAddPecs = (ImageButton) findViewById(R.id.btnAddPecs);
         btnAddServ = (ImageButton) findViewById(R.id.btnAddServ);
 
-        mToolbar = (Toolbar) findViewById(R.id.tb_detal_serv);
-
+        mToolbar = (Toolbar) findViewById(R.id.tb_os);
         mToolbar.setTitle("ORDEM DE SERVIÇO");
         //mToolbar.setLogo(R.drawable.ic_launcher);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         mToobarBotton = (Toolbar) findViewById(R.id.inc_tb_botton);

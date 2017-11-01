@@ -11,10 +11,10 @@
         android:orderInCategory="100"
         android:title="@string/action_my_serv"
         app:showAsAction="never" />
-    <item
+   <!-- <item
         android:id="@+id/notifica"
         android:orderInCategory="100"
         android:title="@string/action_notifica"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
 
 </menu>
