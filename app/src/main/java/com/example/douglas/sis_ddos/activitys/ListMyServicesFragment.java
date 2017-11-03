@@ -141,7 +141,6 @@ public class ListMyServicesFragment extends Fragment implements SwipeRefreshLayo
                                     public void run() {
                                         swipeRefreshLayout.setRefreshing(true);
 
-                                        db.getAllMyServPen();
                                         myListaServPen();
                                     }
                                 }
