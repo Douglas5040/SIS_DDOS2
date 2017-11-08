@@ -208,11 +208,14 @@ public class LoginActivity extends Activity {
                         String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
+                        hideDialog();
                     }
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    hideDialog();
+
                 }
 
             }

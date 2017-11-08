@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/contendor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contendor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -12,13 +12,13 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="501dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+        tools:layout_editor_absoluteY="1dp">
 
         <TextView
             android:id="@+id/textView12"
@@ -59,7 +59,10 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/main_refri2"
+            android:alpha="0.9"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            app:srcCompat="@drawable/refrigera_main"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />

@@ -27,6 +27,8 @@ import com.example.douglas.sis_ddos.app.AppController;
 import com.example.douglas.sis_ddos.app.DataHoraNow;
 import com.example.douglas.sis_ddos.controler.RefrigeradorCtrl;
 import com.example.douglas.sis_ddos.helper.SQLiteHandler;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,7 +88,8 @@ public class OrdemServiceActivity extends AppCompatActivity {
         txtNameCli = (TextView) findViewById(R.id.tvNameCli);
         txtNameCli.setText(DetalhesMyService.servPen.getNomeCli()+" - "+DetalhesMyService.servPen.getTipoCli());
 
-        if(!refrigeradoresCli.equals(null)){
+        Log.e(TAG,"REfrigerador Contexto: "+refrigeradoresCli.toString());
+        if(refrigeradoresCli.getId_refri() != 0){
             List<String> refrigeraCli = new ArrayList<String>();
                 refrigeraCli.add(db.getNomeMaca(refrigeradoresCli.getMarca())+" / "+
                         db.getNomeBTU(refrigeradoresCli.getCapaci_termica())+" BTUs - " +
@@ -125,28 +128,15 @@ public class OrdemServiceActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                DataHoraNow dataNow = new DataHoraNow();
+                //Inicializando o QRcode zxing
+                IntentIntegrator integrator = new IntentIntegrator(OrdemServiceActivity.this);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setPrompt("Autenticando Assinatura Cliente!!!");
+                integrator.setCameraId(0);  // Use a specific camera of the device
+                integrator.setBeepEnabled(true);
+                integrator.setBarcodeImageEnabled(true);
+                integrator.initiateScan();
 
-                pDialog.setMessage("Finalizando...");
-                showDialog();
-
-                addOrdemService(DetalhesMyService.servPen.getCliente_id(), db.getUserDetails().getMatricula(),tipo_manu, etOBS.getText().toString(),
-                        dataNow.getDataNow().substring(6,10)+"-"+
-                        dataNow.getDataNow().substring(3,5)+"-"+
-                        dataNow.getDataNow().substring(0,2), DetalhesMyService.servPen.getHora_serv(),  dataNow.getHoraNow().substring(0,2)+":"+
-                                                                                                            dataNow.getHoraNow().substring(3,5)+":"+
-                                                                                                            dataNow.getHoraNow().substring(6,8));
-
-                updateStatus(DetalhesMyService.servPen.getId_serv_pen(),"Realizado");
-                db.deleteDadosOScahe(DetalhesMyService.servPen.getCliente_id());
-
-                Log.e(TAG,"----------------------Fim ADD OS  "+dataNow.getDataNow().substring(6,10));
-                // Launch DetalhesMyService activity
-                Intent intent = new Intent(
-                        getApplicationContext(),
-                        ListMyServicesActivity.class);
-                startActivity(intent);
-                finish();
 
                 return true;
             }
@@ -197,6 +187,50 @@ public class OrdemServiceActivity extends AppCompatActivity {
         });
         cacheDadosOS();
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Log.e("MainActivity", "Leitura Cancelada");
+                Toast.makeText(getApplicationContext(), "Leitura Cancelada", Toast.LENGTH_LONG).show();
+            } else {
+                Log.e("MainActivity", "Scanned "+ result.getContents());
+                Toast.makeText(getApplicationContext(), "Codigo Lido: " + result.getContents(), Toast.LENGTH_LONG).show();
+
+
+                if(DetalhesMyService.servPen.getCliente_id() == Integer.parseInt(result.getContents())) {
+                    DataHoraNow dataNow = new DataHoraNow();
+
+                    pDialog.setMessage("Finalizando...");
+                    showDialog();
+
+                    addOrdemService(DetalhesMyService.servPen.getCliente_id(), db.getUserDetails().getMatricula(), tipo_manu, etOBS.getText().toString(),
+                            dataNow.getDataNow().substring(6, 10) + "-" +
+                                    dataNow.getDataNow().substring(3, 5) + "-" +
+                                    dataNow.getDataNow().substring(0, 2), DetalhesMyService.servPen.getHora_serv(), dataNow.getHoraNow().substring(0, 2) + ":" +
+                                    dataNow.getHoraNow().substring(3, 5) + ":" +
+                                    dataNow.getHoraNow().substring(6, 8));
+
+                    updateStatus(DetalhesMyService.servPen.getId_serv_pen(), "Realizado");
+                    db.deleteDadosOScahe(DetalhesMyService.servPen.getCliente_id());
+
+                    Log.e(TAG, "----------------------Fim ADD OS  " + dataNow.getDataNow().substring(6, 10));
+                    // Launch DetalhesMyService activity
+                }else Toast.makeText(getApplicationContext(),"Autenticação Invalida!!!",Toast.LENGTH_LONG).show();
+
+            }
+        } else {
+            // This is important, otherwise the result will not be passed to the fragment
+            Log.e(TAG,"erro ----- null");
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -223,7 +257,7 @@ public class OrdemServiceActivity extends AppCompatActivity {
         db = new SQLiteHandler(getApplicationContext());
 
         refrigeradoresCli = db.getArCli(DetalhesMyService.servPen.getId_refriCli());
-        if(!refrigeradoresCli.equals(null)){
+        if(refrigeradoresCli.getId_refri() != 0){
             List<String> refrigeraCli = new ArrayList<String>();
             refrigeraCli.add(db.getNomeMaca(refrigeradoresCli.getMarca())+" / "+
                     db.getNomeBTU(refrigeradoresCli.getCapaci_termica())+" BTUs - " +
@@ -502,7 +536,13 @@ public class OrdemServiceActivity extends AppCompatActivity {
 
                         db.updateStatusServ(id_serv, new_status);
                         //db.deleteMyServPen(DetalhesMyService.servPen.getId_serv_pen());
+
                         hideDialog();
+                        Intent intent = new Intent(
+                                getApplicationContext(),
+                                ListMyServicesActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else {
                         // Error in login. Get the error message
                         Log.e("Errro in new Status: ", "Erro ao atualizar novo status!!!" );

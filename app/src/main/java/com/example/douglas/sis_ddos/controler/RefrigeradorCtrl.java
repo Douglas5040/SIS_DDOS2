@@ -1,6 +1,7 @@
 package com.example.douglas.sis_ddos.controler;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by Douglas on 06/07/2017.
@@ -183,5 +184,28 @@ public class RefrigeradorCtrl implements Serializable {
 
     public void setId_cliente(int id_cliente) {
         this.id_cliente = id_cliente;
+    }
+
+    @Override
+    public String toString() {
+        return "RefrigeradorCtrl{" +
+                "id_refri=" + id_refri +
+                ", peso=" + peso +
+                ", has_control=" + has_control +
+                ", has_exaustor=" + has_exaustor +
+                ", saida_ar='" + saida_ar + '\'' +
+                ", capaci_termica=" + capaci_termica +
+                ", tencao_tomada=" + tencao_tomada +
+                ", has_timer=" + has_timer +
+                ", tipo_modelo=" + tipo_modelo +
+                ", marca=" + marca +
+                ", temp_uso=" + temp_uso +
+                ", nivel_econo=" + nivel_econo +
+                ", tamanho='" + tamanho + '\'' +
+                ", foto1=" + Arrays.toString(foto1) +
+                ", foto2=" + Arrays.toString(foto2) +
+                ", foto3=" + Arrays.toString(foto3) +
+                ", id_cliente=" + id_cliente +
+                '}';
     }
 }
