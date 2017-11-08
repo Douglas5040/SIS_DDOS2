@@ -38,5 +38,6 @@ dependencies {
     compile group: 'com.google.zxing', name: 'core', version: '3.2.1'
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
 
+
     testCompile 'junit:junit:4.12'
 }

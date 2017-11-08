@@ -23,6 +23,7 @@ public class ServPendenteCtrl implements Serializable {
     private String descri_tecni_problem;
     private String descri_cli_refrigera;
     private String status_serv;
+    private String uid_cliente;
     private String nomeCli;
     private String tipoCli;
     private String fone1;
@@ -31,12 +32,13 @@ public class ServPendenteCtrl implements Serializable {
 
     public ServPendenteCtrl(){}
     public ServPendenteCtrl(int id_serv_pen, double latitude, double longitude, int cliente_id, String lotacionamento, String ender, String complemento, String cep, String fone1, String fone2,
-                            String data_serv, String hora_serv, String descri_cli_problem, int id_refriCli,  String descri_tecni_problem, String descri_cli_refrigera, String status_serv, String nomeCli, String tipoCli){
+                            String data_serv, String hora_serv, String uid_cliente, String descri_cli_problem, int id_refriCli,  String descri_tecni_problem, String descri_cli_refrigera, String status_serv, String nomeCli, String tipoCli){
 
         this.id_serv_pen = id_serv_pen;
         this.latitude = latitude;
         this.longitude = longitude;
         this.cliente_id = cliente_id;
+        this.uid_cliente = uid_cliente;
         this.lotacionamento = lotacionamento;
         this.ender = ender;
         this.complemento = complemento;
@@ -52,6 +54,14 @@ public class ServPendenteCtrl implements Serializable {
         this.fone1 = fone1;
         this.fone2 = fone2;
         this.id_refriCli = id_refriCli;
+    }
+
+    public String getUid_cliente() {
+        return uid_cliente;
+    }
+
+    public void setUid_cliente(String uid_cliente) {
+        this.uid_cliente = uid_cliente;
     }
 
     public int getId_refriCli() {
@@ -204,5 +214,31 @@ public class ServPendenteCtrl implements Serializable {
 
     public void setStatus_serv(String status_serv) {
         this.status_serv = status_serv;
+    }
+
+    @Override
+    public String toString() {
+        return "ServPendenteCtrl{" +
+                "id_serv_pen=" + id_serv_pen +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", cliente_id=" + cliente_id +
+                ", lotacionamento='" + lotacionamento + '\'' +
+                ", ender='" + ender + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", cep='" + cep + '\'' +
+                ", data_serv='" + data_serv + '\'' +
+                ", hora_serv='" + hora_serv + '\'' +
+                ", descri_cli_problem='" + descri_cli_problem + '\'' +
+                ", descri_tecni_problem='" + descri_tecni_problem + '\'' +
+                ", descri_cli_refrigera='" + descri_cli_refrigera + '\'' +
+                ", status_serv='" + status_serv + '\'' +
+                ", uid_cliente='" + uid_cliente + '\'' +
+                ", nomeCli='" + nomeCli + '\'' +
+                ", tipoCli='" + tipoCli + '\'' +
+                ", fone1='" + fone1 + '\'' +
+                ", fone2='" + fone2 + '\'' +
+                ", id_refriCli=" + id_refriCli +
+                '}';
     }
 }

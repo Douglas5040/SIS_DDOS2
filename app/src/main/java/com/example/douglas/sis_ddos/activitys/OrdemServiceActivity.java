@@ -203,12 +203,13 @@ public class OrdemServiceActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Codigo Lido: " + result.getContents(), Toast.LENGTH_LONG).show();
 
 
-                if(DetalhesMyService.servPen.getCliente_id() == Integer.parseInt(result.getContents())) {
+                if(DetalhesMyService.servPen.getUid_cliente().equals(result.getContents())) {
                     DataHoraNow dataNow = new DataHoraNow();
 
                     pDialog.setMessage("Finalizando...");
                     showDialog();
 
+                    updateStatus(DetalhesMyService.servPen.getId_serv_pen(), "Realizado");
                     addOrdemService(DetalhesMyService.servPen.getCliente_id(), db.getUserDetails().getMatricula(), tipo_manu, etOBS.getText().toString(),
                             dataNow.getDataNow().substring(6, 10) + "-" +
                                     dataNow.getDataNow().substring(3, 5) + "-" +
@@ -216,7 +217,6 @@ public class OrdemServiceActivity extends AppCompatActivity {
                                     dataNow.getHoraNow().substring(3, 5) + ":" +
                                     dataNow.getHoraNow().substring(6, 8));
 
-                    updateStatus(DetalhesMyService.servPen.getId_serv_pen(), "Realizado");
                     db.deleteDadosOScahe(DetalhesMyService.servPen.getCliente_id());
 
                     Log.e(TAG, "----------------------Fim ADD OS  " + dataNow.getDataNow().substring(6, 10));
@@ -335,6 +335,15 @@ public class OrdemServiceActivity extends AppCompatActivity {
                         for(int x=0; x < listServices.size(); x++) {
                             addServFuncOS(db.getIdServices(listServices.get(x)), lastID);
                         }
+
+
+                        hideDialog();
+                        Intent intent = new Intent(
+                                getApplicationContext(),
+                                ListMyServicesActivity.class);
+                        startActivity(intent);
+                        finish();
+
                         Toast.makeText(getApplicationContext(), "Ordem de Serviço salva no Servidor!", Toast.LENGTH_LONG).show();
                         Log.e(TAG, "-------------------------add OS" );
                     } else {
@@ -537,12 +546,6 @@ public class OrdemServiceActivity extends AppCompatActivity {
                         db.updateStatusServ(id_serv, new_status);
                         //db.deleteMyServPen(DetalhesMyService.servPen.getId_serv_pen());
 
-                        hideDialog();
-                        Intent intent = new Intent(
-                                getApplicationContext(),
-                                ListMyServicesActivity.class);
-                        startActivity(intent);
-                        finish();
                     } else {
                         // Error in login. Get the error message
                         Log.e("Errro in new Status: ", "Erro ao atualizar novo status!!!" );

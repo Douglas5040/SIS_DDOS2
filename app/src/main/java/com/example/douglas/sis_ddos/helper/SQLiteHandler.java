@@ -28,7 +28,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 	// All Static variables
 	// Database Version
-	private static final int DATABASE_VERSION = 51;
+	private static final int DATABASE_VERSION = 52;
 
 	// Database Name
 	private static final String DATABASE_NAME = "android_api";
@@ -154,6 +154,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 	private static final String KEY_FONE1 = "fone1";
 	private static final String KEY_FONE2 = "fone2";
 	private static final String KEY_ID_REFRI_CLI = "id_refri_cli";
+	private static final String KEY_UID_CLI = "uid_cliente";
 
 	public SQLiteHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -180,7 +181,8 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 					+ KEY_ID_REFRI_CLI + " INT,"
 					+ KEY_STATUS_SERV + " TEXT,"
 					+ KEY_FONE1 + " TEXT,"
-					+ KEY_FONE2 + " TEXT" + ");";
+					+ KEY_FONE2 + " TEXT,"
+                    + KEY_UID_CLI + " TEXT );";
 
 	String CREATE_AR_CLIENTE =
 
@@ -351,6 +353,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 		values.put(KEY_NOME_CLI , objetoServPen.getNomeCli()); // Email
 		values.put(KEY_TIPO_CLI , objetoServPen.getTipoCli()); // UID
 		values.put(KEY_ID_REFRI_CLI , objetoServPen.getId_refriCli()); // UID
+		values.put(KEY_UID_CLI , objetoServPen.getUid_cliente()); // UID
 
 		// Inserting Row
 		long id = db.insert(TABLE_MY_SERV_PEN, null, values);
@@ -385,6 +388,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         values.put(KEY_NOME_CLI , objetoServPen.getNomeCli()); // Email
 		values.put(KEY_TIPO_CLI , objetoServPen.getTipoCli()); // UID
 		values.put(KEY_ID_REFRI_CLI , objetoServPen.getId_refriCli()); // UID
+        values.put(KEY_UID_CLI , objetoServPen.getUid_cliente()); // UID
 
         // Inserting Row
         long id = db.insert(TABLE_MY_SERV_PEN, null, values);
@@ -722,6 +726,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 			servPen.setStatus_serv(cursor.getString(16));
 			servPen.setFone1(cursor.getString(17));
 			servPen.setFone2(cursor.getString(18));
+            servPen.setUid_cliente(cursor.getString(19));
 
 			listServPens.add(servPen);
 
@@ -834,6 +839,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 				servPen.setStatus_serv(cursor.getString(16));
 				servPen.setFone1(cursor.getString(17));
 				servPen.setFone2(cursor.getString(18));
+                servPen.setUid_cliente(cursor.getString(19));
 
 			}else Log.e("Erro"," Retorno Da consulta do serviço por ID esta vasio");
 			//Log.e("CEP : ","----- "+cursor.getString(7));

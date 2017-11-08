@@ -133,6 +133,7 @@ public class ListServPendenteFragment extends Fragment implements SwipeRefreshLa
                                     public void run() {
                                         swipeRefreshLayout.setRefreshing(true);
                                         listaServPen("Pendente"," ");
+                                        listServApd.notifyDataSetChanged();
                                     }
                                 }
         );
@@ -259,6 +260,7 @@ public class ListServPendenteFragment extends Fragment implements SwipeRefreshLa
                                 objetoServPen.setFone1(serv_penObj.getString("fone1"));
                                 objetoServPen.setFone2(serv_penObj.getString("fone2"));
                                 objetoServPen.setId_refriCli(serv_penObj.getInt("id_refriCli"));
+                                objetoServPen.setUid_cliente(serv_penObj.getString("unique_id"));
 
                                 servPens.add(objetoServPen);
 
